@@ -125,13 +125,17 @@ public class GUI extends Application {
 			
             // Setting up standard players
 			
-			me = new Player("Orville",9,4,"up");
+			me = new Player("Johan",9,4,"up");
 			players.add(me);
 			fields[9][4].setGraphic(new ImageView(hero_up));
 
 			Player harry = new Player("Harry",14,15,"up");
 			players.add(harry);
 			fields[14][15].setGraphic(new ImageView(hero_up));
+
+			Player oskar = new Player("Oskar",12,4,"up");
+			players.add(oskar);
+			fields[12][4].setGraphic(new ImageView(hero_up));
 
 			scoreList.setText(getScoreList());
 		} catch(Exception e) {
