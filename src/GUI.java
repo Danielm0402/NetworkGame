@@ -130,36 +130,36 @@ public class GUI extends Application {
 				switch (event.getCode()) {
 					case UP:
 						playerMoved(0, -1, "up");
-						keyPressed = "UP!";
+						keyPressed = "up";
 						try {
-							sendInputToServer(keyPressed);
+							sendInputToServer(keyPressed, me.getXpos(), me.getYpos());
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
 						break;
 					case DOWN:
 						playerMoved(0, +1, "down");
-						keyPressed = "DOWN!";
+						keyPressed = "down";
 						try {
-							sendInputToServer(keyPressed);
+							sendInputToServer(keyPressed, me.getXpos(), me.getYpos());
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
 						break;
 					case LEFT:
 						playerMoved(-1, 0, "left");
-						keyPressed = "LEFT!";
+						keyPressed = "left";
 						try {
-							sendInputToServer(keyPressed);
+							sendInputToServer(keyPressed, me.getXpos(), me.getYpos());
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
 						break;
 					case RIGHT:
 						playerMoved(+1, 0, "right");
-						keyPressed = "RIGHT!";
+						keyPressed = "right";
 						try {
-							sendInputToServer(keyPressed);
+							sendInputToServer(keyPressed, me.getXpos(), me.getYpos());
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
@@ -248,8 +248,9 @@ public class GUI extends Application {
 		return null;
 	}
 
-	public void sendInputToServer(String keyPressed) throws IOException {
-		InputStream stream = new ByteArrayInputStream(keyPressed.getBytes(StandardCharsets.UTF_8));
+	public void sendInputToServer(String keyPressed, int x, int y) throws IOException {
+		String input = keyPressed + " x: " + x + " y: " + y;
+		InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
 		BufferedReader fromGame = new BufferedReader(new InputStreamReader(stream));
 		Socket clientSocket = new Socket("localhost", 6780);
 		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());

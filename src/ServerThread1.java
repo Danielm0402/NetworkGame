@@ -17,7 +17,7 @@ public class ServerThread1 extends Thread{
 			// Do the work and the communication with the client here	
 			// The following two lines are only an example
 			String clientSentence = inFromClient.readLine();
-			outToClient.writeBytes("ecco " + clientSentence + '\n' );
+			outToClient.writeBytes("ecco " + clientSentence.toUpperCase() + '\n' );
 		
 		} catch (IOException e) {
 			e.printStackTrace();
