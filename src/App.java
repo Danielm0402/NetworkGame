@@ -22,6 +22,5 @@ public class App {
 		System.out.println("FROM SERVER: " + modifiedSentence);
 		clientSocket.close();
 		Application.launch(GUI.class);
-
 	}
 }
