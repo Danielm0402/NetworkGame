@@ -262,6 +262,5 @@ public class GUI extends Application {
 		System.out.println("FROM SERVER: " + modifiedSentence);
 		clientSocket.close();
 	}
-
 }
 
