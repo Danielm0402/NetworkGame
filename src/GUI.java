@@ -39,7 +39,7 @@ public class GUI extends Application {
 
 	private DataOutputStream outToServer;
 	private BufferedReader inFromServer;
-	private Socket clientSocket = new Socket("localhost", 6781);
+	private Socket clientSocket = new Socket("10.10.132.67", 6012);
 
 	private String[] board = {    // 20x20
 					"wwwwwwwwwwwwwwwwwwww",

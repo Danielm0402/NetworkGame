@@ -6,6 +6,9 @@ import java.net.Socket;
 
 public class ServerThread extends Thread{
 	Socket connSocket;
+	BufferedReader inFromClient;
+	DataOutputStream outToClient;
+	String clientSentence;
 	
 	public ServerThread(Socket connSocket) {
 		this.connSocket = connSocket;
@@ -13,16 +16,18 @@ public class ServerThread extends Thread{
 
 	public void run() {
 		try {
-			BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connSocket.getInputStream()));
-			DataOutputStream outToClient = new DataOutputStream(connSocket.getOutputStream());
+			inFromClient = new BufferedReader(new InputStreamReader(connSocket.getInputStream()));
+			outToClient = new DataOutputStream(connSocket.getOutputStream());
 			while (true) {
-				String clientSentence = inFromClient.readLine();
-				System.out.println(clientSentence);
-				outToClient.writeBytes("ecco " + clientSentence.toUpperCase() + '\n');
+				clientSentence = inFromClient.readLine();
+				skrivBytes();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		}		
-		// do the work here
+		}
+	}
+	public void skrivBytes() throws IOException {
+		System.out.println(clientSentence);
+		outToClient.writeBytes("ecco " + clientSentence.toUpperCase() + '\n');
 	}
 }
