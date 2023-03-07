@@ -37,6 +37,9 @@ public class GUI extends Application {
 	private Label[][] fields;
 	private TextArea scoreList;
 
+	private DataOutputStream outToServer;
+	private BufferedReader inFromServer;
+
 	private String[] board = {    // 20x20
 					"wwwwwwwwwwwwwwwwwwww",
 					"w        ww        w",
@@ -250,17 +253,20 @@ public class GUI extends Application {
 
 	public void sendInputToServer(String keyPressed, int x, int y) throws IOException {
 		String input = keyPressed + " x: " + x + " y: " + y;
-		InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
-		BufferedReader fromGame = new BufferedReader(new InputStreamReader(stream));
-		Socket clientSocket = new Socket("localhost", 6780);
-		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-		String sentence = fromGame.readLine();
-		outToServer.writeBytes(sentence + '\n');
+		/*InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
+		BufferedReader fromGame = new BufferedReader(new InputStreamReader(stream));*/
+		Socket clientSocket = new Socket("localhost", 6781);
+
+
+		outToServer= new DataOutputStream(clientSocket.getOutputStream());
+		inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+
+		//String sentence = input.readLine();
+		outToServer.writeBytes(input + '\n');
 		String modifiedSentence = inFromServer.readLine();
-		System.out.println("FROM CLIENT: " + sentence);
+		System.out.println("FROM CLIENT: " + input);
 		System.out.println("FROM SERVER: " + modifiedSentence);
 		clientSocket.close();
 	}
 }
-

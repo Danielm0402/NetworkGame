@@ -3,10 +3,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-public class ServerThread1 extends Thread{
+public class ServerThread extends Thread{
 	Socket connSocket;
 	
-	public ServerThread1(Socket connSocket) {
+	public ServerThread(Socket connSocket) {
 		this.connSocket = connSocket;
 	}
 	public void run() {
