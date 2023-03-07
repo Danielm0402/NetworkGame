@@ -39,6 +39,7 @@ public class GUI extends Application {
 
 	private DataOutputStream outToServer;
 	private BufferedReader inFromServer;
+	private Socket clientSocket = new Socket("localhost", 6781);
 
 	private String[] board = {    // 20x20
 					"wwwwwwwwwwwwwwwwwwww",
@@ -76,6 +77,8 @@ public class GUI extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+		new ReadThread().start();
+
 		try {
 			GridPane grid = new GridPane();
 			grid.setHgap(10);
@@ -253,20 +256,29 @@ public class GUI extends Application {
 
 	public void sendInputToServer(String keyPressed, int x, int y) throws IOException {
 		String input = keyPressed + " x: " + x + " y: " + y;
-		/*InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
-		BufferedReader fromGame = new BufferedReader(new InputStreamReader(stream));*/
-		Socket clientSocket = new Socket("localhost", 6781);
-
-
-		outToServer= new DataOutputStream(clientSocket.getOutputStream());
-		inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
-
-		//String sentence = input.readLine();
+		outToServer = new DataOutputStream(clientSocket.getOutputStream());
+//		inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		outToServer.writeBytes(input + '\n');
-		String modifiedSentence = inFromServer.readLine();
 		System.out.println("FROM CLIENT: " + input);
-		System.out.println("FROM SERVER: " + modifiedSentence);
-		clientSocket.close();
+	}
+
+	class ReadThread extends Thread {
+		private String sentence;
+
+		public void run() {
+			try {
+				inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+				while (true) {
+					try {
+						sentence = inFromServer.readLine();
+						System.out.println(sentence);
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
+				}
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
 	}
 }
