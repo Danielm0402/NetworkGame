@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-public class ServerThread extends Thread{
+public class ServerThread extends Thread {
 	Socket connSocket;
 	BufferedReader inFromClient;
 	DataOutputStream outToClient;
 	String clientSentence;
-	
+
 	public ServerThread(Socket connSocket) {
 		this.connSocket = connSocket;
 	}
@@ -26,8 +26,11 @@ public class ServerThread extends Thread{
 			e.printStackTrace();
 		}
 	}
+
 	public void skrivBytes() throws IOException {
-		System.out.println(clientSentence);
-		outToClient.writeBytes("ecco " + clientSentence.toUpperCase() + '\n');
+		if (clientSentence != null) {
+			System.out.println(clientSentence);
+			outToClient.writeBytes("ecco " + clientSentence.toUpperCase() + '\n');
+		}
 	}
 }
