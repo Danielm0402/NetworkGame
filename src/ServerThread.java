@@ -1,3 +1,4 @@
+import javax.naming.AuthenticationNotSupportedException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -20,14 +21,14 @@ public class ServerThread extends Thread{
 			outToClient = new DataOutputStream(connSocket.getOutputStream());
 			while (true) {
 				clientSentence = inFromClient.readLine();
-				skrivBytes();
+				Server.gennemløb(clientSentence);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	public void skrivBytes() throws IOException {
-		System.out.println(clientSentence);
-		outToClient.writeBytes("ecco " + clientSentence.toUpperCase() + '\n');
+	public void skrivBytes(String besked) throws IOException {
+		System.out.println(besked);
+		outToClient.writeBytes("ecco " + besked.toUpperCase() + '\n');
 	}
 }

@@ -39,7 +39,7 @@ public class GUI extends Application {
 
 	private DataOutputStream outToServer;
 	private BufferedReader inFromServer;
-	private Socket clientSocket = new Socket("10.10.132.67", 6012);
+	private Socket clientSocket = new Socket("localhost", 6012);
 
 	private String[] board = {    // 20x20
 					"wwwwwwwwwwwwwwwwwwww",
@@ -181,7 +181,7 @@ public class GUI extends Application {
 			players.add(me);
 			fields[9][4].setGraphic(new ImageView(hero_up));
 
-			Player harry = new Player("Harry", 14, 15, "up");
+			Player harry = new Player("Daniel", 14, 15, "up");
 			players.add(harry);
 			fields[14][15].setGraphic(new ImageView(hero_up));
 
