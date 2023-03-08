@@ -39,7 +39,7 @@ public class GUI extends Application {
 
 	private DataOutputStream outToServer;
 	private BufferedReader inFromServer;
-	private Socket clientSocket = new Socket("localhost", 6012);
+	private Socket clientSocket = new Socket("10.10.132.67", 6012);
 
 	private String[] board = {    // 20x20
 					"wwwwwwwwwwwwwwwwwwww",
@@ -257,6 +257,7 @@ public class GUI extends Application {
 	public void sendInputToServer(String keyPressed, int x, int y) throws IOException {
 		String input = keyPressed + " x: " + x + " y: " + y;
 		outToServer = new DataOutputStream(clientSocket.getOutputStream());
+//		inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		outToServer.writeBytes(input + '\n');
 		System.out.println("FROM CLIENT: " + input);
 	}

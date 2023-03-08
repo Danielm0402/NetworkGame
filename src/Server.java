@@ -15,13 +15,12 @@ public class Server {
 			ServerThread serverThread = new ServerThread(connectionSocket);
 			serverThread.start();
 			list.add(serverThread);
-			gennemløb(list);
 		}
 	}
 
-	private static void gennemløb(List<ServerThread> list) throws IOException {
+	public static void gennemløb(String besked) throws IOException {
 		for (ServerThread s : list){
-			s.skrivBytes();
+			s.skrivBytes(besked);
 		}
 	}
 }
