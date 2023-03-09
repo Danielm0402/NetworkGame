@@ -44,7 +44,7 @@ public class GUI extends Application {
 
 	private DataOutputStream outToServer;
 	private BufferedReader inFromServer;
-	private Socket clientSocket = new Socket("10.10.132.33", 6012);
+	private Socket clientSocket = new Socket("localhost", 8000);
 
 	private String[] board = {    // 20x20
 					"wwwwwwwwwwwwwwwwwwww",
@@ -141,7 +141,7 @@ public class GUI extends Application {
 					case UP:
 						//playerMoved(0, -1, "up");
 						try {
-							sendInputToServer(player1.getXpos(), player1.getYpos(), "up", player1);
+							sendInputToServer(0, -1, "up", player1);
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
@@ -149,7 +149,7 @@ public class GUI extends Application {
 					case DOWN:
 						//playerMoved(0, +1, "down");
 						try {
-							sendInputToServer(player1.getXpos(), player1.getYpos(),"down", player1);
+							sendInputToServer(0, +1,"down", player1);
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
@@ -157,7 +157,7 @@ public class GUI extends Application {
 					case LEFT:
 						//playerMoved(-1, 0, "left");
 						try {
-							sendInputToServer(player1.getXpos(), player1.getYpos(),"left", player1);
+							sendInputToServer(-1, 0,"left", player1);
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
@@ -165,7 +165,7 @@ public class GUI extends Application {
 					case RIGHT:
 						//playerMoved(+1, 0, "right");
 						try {
-							sendInputToServer(player1.getXpos(), player1.getYpos(), "right" , player1);
+							sendInputToServer(+1, 0, "right" , player1);
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
@@ -197,6 +197,7 @@ public class GUI extends Application {
 	}
 
 	public void playerMoved(int delta_x, int delta_y, String direction, Player player) {
+		System.out.println("her" + delta_x + " " + delta_y + " " + direction + " " + player);
 		player.direction = direction;
 		int x = player.getXpos(), y = player.getYpos();
 
