@@ -6,8 +6,6 @@ import java.util.List;
 
 public class Server {
 
-
-
 	private static ArrayList<ServerThread> list = new ArrayList<>();
 
 	public static void main(String[] args)throws Exception {
