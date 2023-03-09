@@ -10,6 +10,7 @@ public class ServerThread extends Thread{
 	BufferedReader inFromClient;
 	DataOutputStream outToClient;
 	String clientSentence;
+	Player player;
 	
 	public ServerThread(Socket connSocket) {
 		this.connSocket = connSocket;
@@ -30,5 +31,9 @@ public class ServerThread extends Thread{
 	public void skrivBytes(String besked) throws IOException {
 		System.out.println(besked);
 		outToClient.writeBytes("ecco " + besked.toUpperCase() + '\n');
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 }
