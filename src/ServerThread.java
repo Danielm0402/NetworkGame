@@ -15,6 +15,7 @@ public class ServerThread extends Thread{
 	}
 
 
+
 	public void run() {
 		try {
 			inFromClient = new BufferedReader(new InputStreamReader(connSocket.getInputStream()));
