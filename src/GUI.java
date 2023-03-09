@@ -21,6 +21,7 @@ import javafx.scene.text.*;
 
 import java.io.*;
 import java.net.*;
+import java.util.Objects;
 
 public class GUI extends Application {
 
@@ -140,7 +141,7 @@ public class GUI extends Application {
 					case UP:
 						//playerMoved(0, -1, "up");
 						try {
-							sendInputToServer(0, -1, "up", player1);
+							sendInputToServer(player1.getXpos(), player1.getYpos(), "up", player1);
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
@@ -148,7 +149,7 @@ public class GUI extends Application {
 					case DOWN:
 						//playerMoved(0, +1, "down");
 						try {
-							sendInputToServer(0, +1,"down", player1);
+							sendInputToServer(player1.getXpos(), player1.getYpos(),"down", player1);
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
@@ -156,7 +157,7 @@ public class GUI extends Application {
 					case LEFT:
 						//playerMoved(-1, 0, "left");
 						try {
-							sendInputToServer(-1, 0,"left", player1);
+							sendInputToServer(player1.getXpos(), player1.getYpos(),"left", player1);
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
@@ -164,7 +165,7 @@ public class GUI extends Application {
 					case RIGHT:
 						//playerMoved(+1, 0, "right");
 						try {
-							sendInputToServer(+1, 0, "right" , player1);
+							sendInputToServer(player1.getXpos(), player1.getYpos(), "right" , player1);
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
@@ -273,14 +274,30 @@ public class GUI extends Application {
 						sentence = inFromServer.readLine();
 						System.out.println(sentence);
 						String[] str = sentence.split(" ");
-						if(str[3] == "Player1"){
-							playerMoved(Integer.parseInt(str[0]), Integer.parseInt(str[1]), str[2], player1);
+						int deltaX = 0;
+						int deltaY = 0;
+						if(str[2].equals("right")){
+							deltaX = 1;
 						}
-						else if(str[3] == "Player2"){
-							playerMoved(Integer.parseInt(str[0]), Integer.parseInt(str[1]), str[2], player2);
+						else if(str[2].equals("left")){
+							deltaX = -1;
+						}
+						else if(str[2].equals("up")){
+							deltaY = -1;
 						}
 						else{
-							playerMoved(Integer.parseInt(str[0]), Integer.parseInt(str[1]), str[2], player3);
+							deltaY = 1;
+						}
+
+
+						if(str[3].equals("Player1")){
+							playerMoved(deltaX, deltaY, str[2], player1);
+						}
+						else if(str[3].equals("Player2")){
+							playerMoved(deltaX, deltaY, str[2], player2);
+						}
+						else{
+							playerMoved(deltaX, deltaY, str[2], player3);
 						}
 
 					} catch (IOException e) {
