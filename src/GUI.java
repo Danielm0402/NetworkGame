@@ -133,40 +133,35 @@ public class GUI extends Application {
 			primaryStage.show();
 
 			scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-				String keyPressed;
 				switch (event.getCode()) {
 					case UP:
 						playerMoved(0, -1, "up");
-						keyPressed = "up";
 						try {
-							sendInputToServer(keyPressed, me.getXpos(), me.getYpos());
+							sendInputToServer(me.getXpos(), me.getYpos());
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
 						break;
 					case DOWN:
 						playerMoved(0, +1, "down");
-						keyPressed = "down";
 						try {
-							sendInputToServer(keyPressed, me.getXpos(), me.getYpos());
+							sendInputToServer(me.getXpos(), me.getYpos());
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
 						break;
 					case LEFT:
 						playerMoved(-1, 0, "left");
-						keyPressed = "left";
 						try {
-							sendInputToServer(keyPressed, me.getXpos(), me.getYpos());
+							sendInputToServer(me.getXpos(), me.getYpos());
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
 						break;
 					case RIGHT:
 						playerMoved(+1, 0, "right");
-						keyPressed = "right";
 						try {
-							sendInputToServer(keyPressed, me.getXpos(), me.getYpos());
+							sendInputToServer(me.getXpos(), me.getYpos());
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
@@ -255,8 +250,8 @@ public class GUI extends Application {
 		return null;
 	}
 
-	public void sendInputToServer(String keyPressed, int x, int y) throws IOException {
-		String input = keyPressed + " x: " + x + " y: " + y;
+	public void sendInputToServer(int x, int y) throws IOException {
+		String input = " " + x + " " + y;
 		outToServer = new DataOutputStream(clientSocket.getOutputStream());
 //		inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		outToServer.writeBytes(input + '\n');

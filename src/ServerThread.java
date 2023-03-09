@@ -9,9 +9,11 @@ public class ServerThread extends Thread{
 	BufferedReader inFromClient;
 	DataOutputStream outToClient;
 	String clientSentence;
+	String navn;
 	
 	public ServerThread(Socket connSocket) {
 		this.connSocket = connSocket;
+		navn = this.getName();
 	}
 
 
@@ -29,6 +31,6 @@ public class ServerThread extends Thread{
 	}
 	public void skrivBytes(String besked) throws IOException {
 		System.out.println(besked);
-		outToClient.writeBytes("ecco " + besked.toUpperCase() + '\n');
+		outToClient.writeBytes(navn.charAt(7) + " " + besked + '\n');
 	}
 }
