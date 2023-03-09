@@ -255,7 +255,7 @@ public class GUI extends Application {
 	}
 
 	public void sendInputToServer(int x, int y, String direction , Player player) throws IOException {
-		String input = player.getName() + " " + x + " " + y;
+		String input = x + " " + y + " " + direction + " " + player.getName();
 		outToServer = new DataOutputStream(clientSocket.getOutputStream());
 //		inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		outToServer.writeBytes(input + '\n');
