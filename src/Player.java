@@ -1,5 +1,6 @@
 
 public class Player {
+
 	String name;
 	int xpos;
 	int ypos;
