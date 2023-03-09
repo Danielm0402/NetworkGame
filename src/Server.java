@@ -15,8 +15,6 @@ public class Server {
 			ServerThread serverThread = new ServerThread(connectionSocket);
 			serverThread.start();
 			list.add(serverThread);
-			int index = list.size() - 1;
-			assignPlayers(index, serverThread);
 		}
 	}
 
@@ -24,9 +22,5 @@ public class Server {
 		for (ServerThread s : list){
 			s.skrivBytes(besked);
 		}
-	}
-
-	public static void assignPlayers(int index, ServerThread serverThread){
-		serverThread.setPlayer(GUI.players.get(index));
 	}
 }
