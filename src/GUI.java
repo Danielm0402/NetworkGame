@@ -33,7 +33,9 @@ public class GUI extends Application {
 	public static Image image_wall;
 	public static Image hero_right, hero_left, hero_up, hero_down;
 
-	public static Player me;
+	public static Player player1;
+	public static Player player2;
+	public static Player player3;
 	public static List<Player> players = new ArrayList<Player>();
 
 	private Label[][] fields;
@@ -136,33 +138,33 @@ public class GUI extends Application {
 			scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 				switch (event.getCode()) {
 					case UP:
-						playerMoved(0, -1, "up");
+						//playerMoved(0, -1, "up");
 						try {
-							sendInputToServer(me.getXpos(), me.getYpos());
+							sendInputToServer(player1.getXpos(), player1.getYpos(), "up", player1);
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
 						break;
 					case DOWN:
-						playerMoved(0, +1, "down");
+						//playerMoved(0, +1, "down");
 						try {
-							sendInputToServer(me.getXpos(), me.getYpos());
+							sendInputToServer(player1.getXpos(), player1.getYpos(),"down", player1);
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
 						break;
 					case LEFT:
-						playerMoved(-1, 0, "left");
+						//playerMoved(-1, 0, "left");
 						try {
-							sendInputToServer(me.getXpos(), me.getYpos());
+							sendInputToServer(player1.getXpos(), player1.getYpos(),"left", player1);
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
 						break;
 					case RIGHT:
-						playerMoved(+1, 0, "right");
+						//playerMoved(+1, 0, "right");
 						try {
-							sendInputToServer(me.getXpos(), me.getYpos());
+							sendInputToServer(player1.getXpos(), player1.getYpos(), "right" , player1);
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
@@ -174,37 +176,38 @@ public class GUI extends Application {
 
 			// Setting up standard players
 
-			me = new Player("Johan", 9, 4, "up");
-			players.add(me);
+			player1 = new Player("Player1", 9, 4, "up");
+			players.add(player1);
 			fields[9][4].setGraphic(new ImageView(hero_up));
 
-			Player harry = new Player("Harry", 14, 15, "up");
-			players.add(harry);
+			player2 = new Player("Player2", 14, 15, "up");
+			players.add(player2);
 			fields[14][15].setGraphic(new ImageView(hero_up));
 
-			Player oskar = new Player("Oskar", 12, 4, "up");
-			players.add(oskar);
+			player3 = new Player("Player3", 12, 4, "up");
+			players.add(player3);
 			fields[12][4].setGraphic(new ImageView(hero_up));
 
 			scoreList.setText(getScoreList());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void playerMoved(int delta_x, int delta_y, String direction) {
-		me.direction = direction;
-		int x = me.getXpos(), y = me.getYpos();
+	public void playerMoved(int delta_x, int delta_y, String direction, Player player) {
+		player.direction = direction;
+		int x = player.getXpos(), y = player.getYpos();
 
 		if (board[y + delta_y].charAt(x + delta_x) == 'w') {
-			me.addPoints(-1);
+			player.addPoints(-1);
 		} else {
 			Player p = getPlayerAt(x + delta_x, y + delta_y);
 			if (p != null) {
-				me.addPoints(10);
+				player.addPoints(10);
 				p.addPoints(-10);
 			} else {
-				me.addPoints(1);
+				player.addPoints(1);
 
 				fields[x][y].setGraphic(new ImageView(image_floor));
 				x += delta_x;
@@ -227,8 +230,8 @@ public class GUI extends Application {
 				}
 				;
 
-				me.setXpos(x);
-				me.setYpos(y);
+				player.setXpos(x);
+				player.setYpos(y);
 			}
 		}
 		scoreList.setText(getScoreList());
@@ -251,8 +254,8 @@ public class GUI extends Application {
 		return null;
 	}
 
-	public void sendInputToServer(int x, int y) throws IOException {
-		String input = " " + x + " " + y;
+	public void sendInputToServer(int x, int y, String direction , Player player) throws IOException {
+		String input = player.getName() + " " + x + " " + y;
 		outToServer = new DataOutputStream(clientSocket.getOutputStream());
 //		inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		outToServer.writeBytes(input + '\n');
@@ -269,6 +272,17 @@ public class GUI extends Application {
 					try {
 						sentence = inFromServer.readLine();
 						System.out.println(sentence);
+						String[] str = sentence.split(" ");
+						if(str[3] == "Player1"){
+							playerMoved(Integer.parseInt(str[0]), Integer.parseInt(str[1]), str[2], player1);
+						}
+						else if(str[3] == "Player2"){
+							playerMoved(Integer.parseInt(str[0]), Integer.parseInt(str[1]), str[2], player2);
+						}
+						else{
+							playerMoved(Integer.parseInt(str[0]), Integer.parseInt(str[1]), str[2], player3);
+						}
+
 					} catch (IOException e) {
 						throw new RuntimeException(e);
 					}
