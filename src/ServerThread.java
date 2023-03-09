@@ -30,6 +30,7 @@ public class ServerThread extends Thread{
 	}
 	public void skrivBytes(String besked) throws IOException {
 		System.out.println(besked);
+
 		outToClient.writeBytes(navn.charAt(7) + " " + besked + '\n');
 	}
 }
