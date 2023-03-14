@@ -9,7 +9,7 @@ public class Server {
 	private static ArrayList<ServerThread> list = new ArrayList<>();
 
 	public static void main(String[] args)throws Exception {
-		ServerSocket welcomeSocket = new ServerSocket(6012);
+		ServerSocket welcomeSocket = new ServerSocket(8000);
 		while (true) {
 			Socket connectionSocket = welcomeSocket.accept();
 			ServerThread serverThread = new ServerThread(connectionSocket);
