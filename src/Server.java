@@ -7,6 +7,29 @@ public class Server {
 
 	private static ArrayList<ServerThread> list = new ArrayList<>();
 
+	private static String[] board = {    // 20x20
+			"wwwwwwwwwwwwwwwwwwww",
+			"w        ww        w",
+			"w w  w  www w  w  ww",
+			"w w  w   ww w  w  ww",
+			"w  w               w",
+			"w w w w w w w  w  ww",
+			"w w     www w  w  ww",
+			"w w     w w w  w  ww",
+			"w   w w  w  w  w   w",
+			"w     w  w  w  w   w",
+			"w ww ww        w  ww",
+			"w  w w    w    w  ww",
+			"w        ww w  w  ww",
+			"w         w w  w  ww",
+			"w        w     w  ww",
+			"w  w              ww",
+			"w  w www  w w  ww ww",
+			"w w      ww w     ww",
+			"w   w   ww  w      w",
+			"wwwwwwwwwwwwwwwwwwww"
+	};
+
 	public static void main(String[] args)throws Exception {
 		ServerSocket welcomeSocket = new ServerSocket(8000);
 		while (true) {
@@ -22,4 +45,21 @@ public class Server {
 			s.skrivBytes(besked);
 		}
 	}
+
+	public static int[] generateRandomCoordinates(){
+		int[] coordinates = {-1, -1};
+		boolean validCoordinates = false;
+		while (!validCoordinates){
+			int i = (int) (1 + Math.random() * (20 -1));
+			int j = (int) (1 + Math.random() * (20 - 1));
+			if (board[j].charAt(i) != 'w'){
+				coordinates[0] = i;
+				coordinates[1] = j;
+				validCoordinates = true;
+			}
+		}
+		return coordinates;
+	}
+
+
 }

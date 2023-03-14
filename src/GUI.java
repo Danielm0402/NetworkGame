@@ -37,7 +37,7 @@ public class GUI extends Application {
 
     private DataOutputStream outToServer;
     private BufferedReader inFromServer;
-    private Socket clientSocket = new Socket("localhost", 8000);
+    private Socket clientSocket = new Socket("10.10.138.62", 8000);
 
     private String[] board = {    // 20x20
             "wwwwwwwwwwwwwwwwwwww",
@@ -130,17 +130,17 @@ public class GUI extends Application {
             primaryStage.show();
 
 
-			int[] player1Coordinates = generateRandomCoordinates();
+			int[] player1Coordinates = Server.generateRandomCoordinates();
             player1 = new Player("Player1", player1Coordinates[0], player1Coordinates[1], "up");
             players.add(player1);
             fields[player1Coordinates[0]][player1Coordinates[1]].setGraphic(new ImageView(hero_up));
 
-			int[] player2Coordinates = generateRandomCoordinates();
+			int[] player2Coordinates = Server.generateRandomCoordinates();
             player2 = new Player("Player2", player2Coordinates[0], player2Coordinates[1], "up");
             players.add(player2);
             fields[player2Coordinates[0]][player2Coordinates[1]].setGraphic(new ImageView(hero_up));
 
-			int[] player3Coordinates = generateRandomCoordinates();
+			int[] player3Coordinates = Server.generateRandomCoordinates();
             player3 = new Player("Player3", player3Coordinates[0], player3Coordinates[1], "up");
             players.add(player3);
             fields[player3Coordinates[0]][player3Coordinates[1]].setGraphic(new ImageView(hero_up));
@@ -149,28 +149,28 @@ public class GUI extends Application {
                 switch (event.getCode()) {
                     case UP:
                         try {
-                            sendInputToServer(0, -1, "up", player1);
+                            sendInputToServer(0, -1, "up", player3);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                         break;
                     case DOWN:
                         try {
-                            sendInputToServer(0, +1, "down", player1);
+                            sendInputToServer(0, +1, "down", player3);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                         break;
                     case LEFT:
                         try {
-                            sendInputToServer(-1, 0, "left", player1);
+                            sendInputToServer(-1, 0, "left", player3);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                         break;
                     case RIGHT:
                         try {
-                            sendInputToServer(+1, 0, "right", player1);
+                            sendInputToServer(+1, 0, "right", player3);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -248,22 +248,22 @@ public class GUI extends Application {
         System.out.println("FROM CLIENT: " + input);
     }
 
-	public int[] generateRandomCoordinates(){
-        int[] coordinates = {-1, -1};
-        boolean validCoordinates = false;
-        while (!validCoordinates){
-            int i = (int) (1 + Math.random() * (20 -1));
-            int j = (int) (1 + Math.random() * (20 - 1));
-            if (board[j].charAt(i) != 'w'){
-                coordinates[0] = i;
-                coordinates[1] = j;
-                validCoordinates = true;
-            }
-        }
-
-
-		return coordinates;
-	}
+//	public int[] generateRandomCoordinates(){
+//        int[] coordinates = {-1, -1};
+//        boolean validCoordinates = false;
+//        while (!validCoordinates){
+//            int i = (int) (1 + Math.random() * (20 -1));
+//            int j = (int) (1 + Math.random() * (20 - 1));
+//            if (board[j].charAt(i) != 'w'){
+//                coordinates[0] = i;
+//                coordinates[1] = j;
+//                validCoordinates = true;
+//            }
+//        }
+//
+//
+//		return coordinates;
+//	}
 
     class ReadThread extends Thread {
         private String sentence;
