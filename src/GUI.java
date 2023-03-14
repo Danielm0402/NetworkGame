@@ -222,7 +222,6 @@ public class GUI extends Application {
             }
             scoreList.setText(getScoreList());
         });
-
     }
 
     public String getScoreList() {
@@ -260,6 +259,7 @@ public class GUI extends Application {
                         sentence = inFromServer.readLine();
                         System.out.println(sentence);
                         movePlayer(sentence);
+                        scoreList.setText(getScoreList());
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
