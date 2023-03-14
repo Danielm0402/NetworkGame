@@ -28,9 +28,10 @@ public class GUI extends Application {
     public static Image image_wall;
     public static Image hero_right, hero_left, hero_up, hero_down;
 
-    public static Player player1;
+    public static Player player1 = new Player("playername", 1, 1, "up");
     public static Player player2;
     public static Player player3;
+    public static String playername;
     public static List<Player> players = new ArrayList<Player>();
 
     private Label[][] fields;
@@ -79,7 +80,7 @@ public class GUI extends Application {
         new ReadThread().start();
         System.out.print("Indtast navn på spiller: ");
         Scanner s1 = new Scanner(System.in);
-        String playername = s1.nextLine();
+        player1.setName(s1.nextLine());
 
         try {
             GridPane grid = new GridPane();
@@ -133,11 +134,11 @@ public class GUI extends Application {
             primaryStage.setScene(scene);
             primaryStage.show();
 
-            player1 = new Player("Player1", 1, 1, "up");
-            players.add(player1);
-            fields[1][1].setGraphic(new ImageView(hero_up));
 
-            player2 = new Player(playername, 14, 15, "up");
+            fields[1][1].setGraphic(new ImageView(hero_up));
+            players.add(player1);
+
+            player2 = new Player("player2", 14, 15, "up");
             players.add(player2);
             fields[14][15].setGraphic(new ImageView(hero_up));
 
@@ -149,28 +150,28 @@ public class GUI extends Application {
                 switch (event.getCode()) {
                     case UP:
                         try {
-                            sendInputToServer(0, -1, "up", player2);
+                            sendInputToServer(0, -1, "up", player1);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                         break;
                     case DOWN:
                         try {
-                            sendInputToServer(0, +1, "down", player2);
+                            sendInputToServer(0, +1, "down", player1);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                         break;
                     case LEFT:
                         try {
-                            sendInputToServer(-1, 0, "left", player2);
+                            sendInputToServer(-1, 0, "left", player1);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                         break;
                     case RIGHT:
                         try {
-                            sendInputToServer(+1, 0, "right", player2);
+                            sendInputToServer(+1, 0, "right", player1);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -285,11 +286,11 @@ public class GUI extends Application {
                 deltaY = 1;
                 deltaX = 0;
             }
-            if (str[3].equals("Player1")) {
+            if (str[3].equals(player1.getName())) {
                 playerMoved(deltaX, deltaY, str[2], player1);
-            } else if (str[3].equals("Player2")) {
+            } else if (str[3].equals(player2.getName())) {
                 playerMoved(deltaX, deltaY, str[2], player2);
-            } else {
+            } else if (str[3].equals(player3.getName())) {
                 playerMoved(deltaX, deltaY, str[2], player3);
             }
         }

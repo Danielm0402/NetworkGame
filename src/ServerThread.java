@@ -16,11 +16,11 @@ public class ServerThread extends Thread{
 
 	public void run() {
 		try {
-			//this.sleep(10000);
 			inFromClient = new BufferedReader(new InputStreamReader(connSocket.getInputStream()));
 			outToClient = new DataOutputStream(connSocket.getOutputStream());
 			while (true) {
 				clientSentence = inFromClient.readLine();
+                //this.sleep(2000);
 				Server.gennemløb(clientSentence);
 			}
 		} catch (IOException e) {
