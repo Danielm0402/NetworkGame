@@ -31,7 +31,6 @@ public class GUI extends Application {
     public static Player player1 = new Player("playername", 1, 1, "up");
     public static Player player2;
     public static Player player3;
-    public static String playername;
     public static List<Player> players = new ArrayList<Player>();
 
     private Label[][] fields;
