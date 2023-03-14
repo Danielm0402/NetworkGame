@@ -1,5 +1,6 @@
 
 
+import java.awt.desktop.ScreenSleepEvent;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -157,7 +158,6 @@ public class GUI extends Application {
             scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
                 switch (event.getCode()) {
                     case UP:
-                        //playerMoved(0, -1, "up");
                         try {
                             sendInputToServer(0, -1, "up", player1);
                         } catch (IOException e) {
@@ -165,7 +165,6 @@ public class GUI extends Application {
                         }
                         break;
                     case DOWN:
-                        //playerMoved(0, +1, "down");
                         try {
                             sendInputToServer(0, +1, "down", player1);
                         } catch (IOException e) {
@@ -173,7 +172,6 @@ public class GUI extends Application {
                         }
                         break;
                     case LEFT:
-                        //playerMoved(-1, 0, "left");
                         try {
                             sendInputToServer(-1, 0, "left", player1);
                         } catch (IOException e) {
@@ -181,7 +179,6 @@ public class GUI extends Application {
                         }
                         break;
                     case RIGHT:
-                        //playerMoved(+1, 0, "right");
                         try {
                             sendInputToServer(+1, 0, "right", player1);
                         } catch (IOException e) {
@@ -268,7 +265,6 @@ public class GUI extends Application {
     public void sendInputToServer(int x, int y, String direction, Player player) throws IOException {
         String input = x + " " + y + " " + direction + " " + player.getName();
         outToServer = new DataOutputStream(clientSocket.getOutputStream());
-//		inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         outToServer.writeBytes(input + '\n');
         System.out.println("FROM CLIENT: " + input);
     }
