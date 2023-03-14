@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -37,7 +38,7 @@ public class GUI extends Application {
 
     private DataOutputStream outToServer;
     private BufferedReader inFromServer;
-    private Socket clientSocket = new Socket("localhost", 8000);
+    private Socket clientSocket = new Socket("10.10.138.62", 8000);
 
     private String[] board = {    // 20x20
             "wwwwwwwwwwwwwwwwwwww",
@@ -76,6 +77,9 @@ public class GUI extends Application {
     @Override
     public void start(Stage primaryStage) {
         new ReadThread().start();
+        System.out.print("Indtast navn på spiller: ");
+        Scanner s1 = new Scanner(System.in);
+        String playername = s1.nextLine();
 
         try {
             GridPane grid = new GridPane();
@@ -133,7 +137,7 @@ public class GUI extends Application {
             players.add(player1);
             fields[1][1].setGraphic(new ImageView(hero_up));
 
-            player2 = new Player("Player2", 14, 15, "up");
+            player2 = new Player(playername, 14, 15, "up");
             players.add(player2);
             fields[14][15].setGraphic(new ImageView(hero_up));
 
@@ -145,28 +149,28 @@ public class GUI extends Application {
                 switch (event.getCode()) {
                     case UP:
                         try {
-                            sendInputToServer(0, -1, "up", player1);
+                            sendInputToServer(0, -1, "up", player2);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                         break;
                     case DOWN:
                         try {
-                            sendInputToServer(0, +1, "down", player1);
+                            sendInputToServer(0, +1, "down", player2);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                         break;
                     case LEFT:
                         try {
-                            sendInputToServer(-1, 0, "left", player1);
+                            sendInputToServer(-1, 0, "left", player2);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                         break;
                     case RIGHT:
                         try {
-                            sendInputToServer(+1, 0, "right", player1);
+                            sendInputToServer(+1, 0, "right", player2);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
