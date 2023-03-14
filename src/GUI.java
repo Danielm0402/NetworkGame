@@ -1,12 +1,8 @@
-
-
-import java.awt.desktop.ScreenSleepEvent;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,16 +17,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.*;
 
-import java.io.*;
-import java.net.*;
-import java.util.Objects;
-
 public class GUI extends Application {
 
     public static final int size = 20;
     public static final int scene_height = size * 20 + 100;
     public static final int scene_width = size * 20 + 200;
-
 
     public static Image image_floor;
     public static Image image_wall;
@@ -87,8 +78,6 @@ public class GUI extends Application {
         new ReadThread().start();
 
         try {
-
-
             GridPane grid = new GridPane();
             grid.setHgap(10);
             grid.setVgap(10);
@@ -131,7 +120,6 @@ public class GUI extends Application {
             }
             scoreList.setEditable(false);
 
-
             grid.add(mazeLabel, 0, 0);
             grid.add(scoreLabel, 1, 0);
             grid.add(boardGrid, 0, 1);
@@ -140,8 +128,6 @@ public class GUI extends Application {
             Scene scene = new Scene(grid, scene_width, scene_height);
             primaryStage.setScene(scene);
             primaryStage.show();
-
-            // Setting up standard players
 
             player1 = new Player("Player1", 1, 1, "up");
             players.add(player1);
@@ -190,7 +176,6 @@ public class GUI extends Application {
                 }
             });
 
-
             scoreList.setText(getScoreList());
 
         } catch (Exception e) {
@@ -199,48 +184,38 @@ public class GUI extends Application {
     }
 
     public void playerMoved(int delta_x, int delta_y, String direction, Player player) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                player.direction = direction;
-                int x = player.getXpos(), y = player.getYpos();
-                if (board[y + delta_y].charAt(x + delta_x) == 'w') {
-                    player.addPoints(-1);
+        Platform.runLater(() -> {
+            player.direction = direction;
+            int x = player.getXpos(), y = player.getYpos();
+            if (board[y + delta_y].charAt(x + delta_x) == 'w') {
+                player.addPoints(-1);
+            } else {
+                Player p = getPlayerAt(x + delta_x, y + delta_y);
+                if (p != null) {
+                    player.addPoints(10);
+                    p.addPoints(-10);
                 } else {
-                    Player p = getPlayerAt(x + delta_x, y + delta_y);
-                    if (p != null) {
-                        player.addPoints(10);
-                        p.addPoints(-10);
-                    } else {
-                        player.addPoints(1);
-
-                        fields[x][y].setGraphic(new ImageView(image_floor));
-                        x += delta_x;
-                        y += delta_y;
-
-                        if (direction.equals("right")) {
-                            fields[x][y].setGraphic(new ImageView(hero_right));
-                        }
-                        ;
-                        if (direction.equals("left")) {
-                            fields[x][y].setGraphic(new ImageView(hero_left));
-                        }
-                        ;
-                        if (direction.equals("up")) {
-                            fields[x][y].setGraphic(new ImageView(hero_up));
-                        }
-                        ;
-                        if (direction.equals("down")) {
-                            fields[x][y].setGraphic(new ImageView(hero_down));
-                        }
-                        ;
-
-                        player.setXpos(x);
-                        player.setYpos(y);
+                    player.addPoints(1);
+                    fields[x][y].setGraphic(new ImageView(image_floor));
+                    x += delta_x;
+                    y += delta_y;
+                    if (direction.equals("right")) {
+                        fields[x][y].setGraphic(new ImageView(hero_right));
                     }
+                    if (direction.equals("left")) {
+                        fields[x][y].setGraphic(new ImageView(hero_left));
+                    }
+                    if (direction.equals("up")) {
+                        fields[x][y].setGraphic(new ImageView(hero_up));
+                    }
+                    if (direction.equals("down")) {
+                        fields[x][y].setGraphic(new ImageView(hero_down));
+                    }
+                    player.setXpos(x);
+                    player.setYpos(y);
                 }
-                scoreList.setText(getScoreList());
             }
+            scoreList.setText(getScoreList());
         });
 
     }
@@ -279,38 +254,39 @@ public class GUI extends Application {
                     try {
                         sentence = inFromServer.readLine();
                         System.out.println(sentence);
-                        String[] str = sentence.split(" ");
-                        int deltaX;
-                        int deltaY;
-                        if (str[2].equals("right")) {
-                            deltaX = 1;
-                            deltaY = 0;
-                        } else if (str[2].equals("left")) {
-                            deltaX = -1;
-                            deltaY = 0;
-                        } else if (str[2].equals("up")) {
-                            deltaY = -1;
-                            deltaX = 0;
-                        } else {
-                            deltaY = 1;
-                            deltaX = 0;
-                        }
-
-
-                        if (str[3].equals("Player1")) {
-                            playerMoved(deltaX, deltaY, str[2], player1);
-                        } else if (str[3].equals("Player2")) {
-                            playerMoved(deltaX, deltaY, str[2], player2);
-                        } else {
-                            playerMoved(deltaX, deltaY, str[2], player3);
-                        }
-
+                        movePlayer(sentence);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
+            }
+        }
+
+        public void movePlayer(String sentence) {
+            String[] str = sentence.split(" ");
+            int deltaX;
+            int deltaY;
+            if (str[2].equals("right")) {
+                deltaX = 1;
+                deltaY = 0;
+            } else if (str[2].equals("left")) {
+                deltaX = -1;
+                deltaY = 0;
+            } else if (str[2].equals("up")) {
+                deltaY = -1;
+                deltaX = 0;
+            } else {
+                deltaY = 1;
+                deltaX = 0;
+            }
+            if (str[3].equals("Player1")) {
+                playerMoved(deltaX, deltaY, str[2], player1);
+            } else if (str[3].equals("Player2")) {
+                playerMoved(deltaX, deltaY, str[2], player2);
+            } else {
+                playerMoved(deltaX, deltaY, str[2], player3);
             }
         }
     }
