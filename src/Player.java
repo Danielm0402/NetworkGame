@@ -6,6 +6,10 @@ public class Player {
 	int point;
 	String direction;
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public Player(String name, int xpos, int ypos, String direction) {
 		this.name = name;
 		this.xpos = xpos;
