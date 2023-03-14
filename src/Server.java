@@ -18,7 +18,7 @@ public class Server {
 		}
 	}
 
-	public static void gennemløb(String besked) throws IOException {
+	public synchronized static void gennemløb(String besked) throws IOException {
 		for (ServerThread s : list){
 			s.skrivBytes(besked);
 		}

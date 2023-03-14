@@ -129,17 +129,21 @@ public class GUI extends Application {
             primaryStage.setScene(scene);
             primaryStage.show();
 
-            player1 = new Player("Player1", 1, 1, "up");
+
+			int[] player1Coordinates = generateRandomCoordinates();
+            player1 = new Player("Player1", player1Coordinates[0], player1Coordinates[1], "up");
             players.add(player1);
-            fields[1][1].setGraphic(new ImageView(hero_up));
+            fields[player1Coordinates[0]][player1Coordinates[1]].setGraphic(new ImageView(hero_up));
 
-            player2 = new Player("Player2", 14, 15, "up");
+			int[] player2Coordinates = generateRandomCoordinates();
+            player2 = new Player("Player2", player2Coordinates[0], player2Coordinates[1], "up");
             players.add(player2);
-            fields[14][15].setGraphic(new ImageView(hero_up));
+            fields[player2Coordinates[0]][player2Coordinates[1]].setGraphic(new ImageView(hero_up));
 
-            player3 = new Player("Player3", 12, 4, "up");
+			int[] player3Coordinates = generateRandomCoordinates();
+            player3 = new Player("Player3", player3Coordinates[0], player3Coordinates[1], "up");
             players.add(player3);
-            fields[12][4].setGraphic(new ImageView(hero_up));
+            fields[player3Coordinates[0]][player3Coordinates[1]].setGraphic(new ImageView(hero_up));
 
             scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
                 switch (event.getCode()) {
@@ -243,6 +247,23 @@ public class GUI extends Application {
         outToServer.writeBytes(input + '\n');
         System.out.println("FROM CLIENT: " + input);
     }
+
+	public int[] generateRandomCoordinates(){
+        int[] coordinates = {-1, -1};
+        boolean validCoordinates = false;
+        while (!validCoordinates){
+            int i = (int) (1 + Math.random() * (20 -1));
+            int j = (int) (1 + Math.random() * (20 - 1));
+            if (board[j].charAt(i) != 'w'){
+                coordinates[0] = i;
+                coordinates[1] = j;
+                validCoordinates = true;
+            }
+        }
+
+
+		return coordinates;
+	}
 
     class ReadThread extends Thread {
         private String sentence;
