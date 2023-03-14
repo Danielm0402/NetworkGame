@@ -6,9 +6,7 @@ import java.util.ArrayList;
 public class Server {
 
 	private static ArrayList<ServerThread> list = new ArrayList<>();
-	private static int[] player1Coordinates = generateRandomCoordinates();
-	private static int[] player2Coordinates = generateRandomCoordinates();
-	private static int[] player3Coordinates = generateRandomCoordinates();
+
 
 	private static String[] board = {    // 20x20
 			"wwwwwwwwwwwwwwwwwwww",
@@ -32,6 +30,10 @@ public class Server {
 			"w   w   ww  w      w",
 			"wwwwwwwwwwwwwwwwwwww"
 	};
+
+	private static int[] player1Coordinates = generateRandomCoordinates();
+	private static int[] player2Coordinates = generateRandomCoordinates();
+	private static int[] player3Coordinates = generateRandomCoordinates();
 
 	public static void main(String[] args)throws Exception {
 		ServerSocket welcomeSocket = new ServerSocket(8000);
