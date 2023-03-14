@@ -130,17 +130,17 @@ public class GUI extends Application {
             primaryStage.show();
 
 
-			int[] player1Coordinates = Server.generateRandomCoordinates();
+			int[] player1Coordinates = Server.getPlayer1Coordinates();
             player1 = new Player("Player1", player1Coordinates[0], player1Coordinates[1], "up");
             players.add(player1);
             fields[player1Coordinates[0]][player1Coordinates[1]].setGraphic(new ImageView(hero_up));
 
-			int[] player2Coordinates = Server.generateRandomCoordinates();
+			int[] player2Coordinates = Server.getPlayer2Coordinates();
             player2 = new Player("Player2", player2Coordinates[0], player2Coordinates[1], "up");
             players.add(player2);
             fields[player2Coordinates[0]][player2Coordinates[1]].setGraphic(new ImageView(hero_up));
 
-			int[] player3Coordinates = Server.generateRandomCoordinates();
+			int[] player3Coordinates = Server.getPlayer3Coordinates();
             player3 = new Player("Player3", player3Coordinates[0], player3Coordinates[1], "up");
             players.add(player3);
             fields[player3Coordinates[0]][player3Coordinates[1]].setGraphic(new ImageView(hero_up));
@@ -247,23 +247,6 @@ public class GUI extends Application {
         outToServer.writeBytes(input + '\n');
         System.out.println("FROM CLIENT: " + input);
     }
-
-//	public int[] generateRandomCoordinates(){
-//        int[] coordinates = {-1, -1};
-//        boolean validCoordinates = false;
-//        while (!validCoordinates){
-//            int i = (int) (1 + Math.random() * (20 -1));
-//            int j = (int) (1 + Math.random() * (20 - 1));
-//            if (board[j].charAt(i) != 'w'){
-//                coordinates[0] = i;
-//                coordinates[1] = j;
-//                validCoordinates = true;
-//            }
-//        }
-//
-//
-//		return coordinates;
-//	}
 
     class ReadThread extends Thread {
         private String sentence;

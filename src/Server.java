@@ -6,6 +6,9 @@ import java.util.ArrayList;
 public class Server {
 
 	private static ArrayList<ServerThread> list = new ArrayList<>();
+	private static int[] player1Coordinates = generateRandomCoordinates();
+	private static int[] player2Coordinates = generateRandomCoordinates();
+	private static int[] player3Coordinates = generateRandomCoordinates();
 
 	private static String[] board = {    // 20x20
 			"wwwwwwwwwwwwwwwwwwww",
@@ -61,5 +64,15 @@ public class Server {
 		return coordinates;
 	}
 
+	public static int[] getPlayer1Coordinates() {
+		return player1Coordinates;
+	}
 
+	public static int[] getPlayer2Coordinates() {
+		return player2Coordinates;
+	}
+
+	public static int[] getPlayer3Coordinates() {
+		return player3Coordinates;
+	}
 }
